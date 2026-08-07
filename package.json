@@ -1,0 +1,12 @@
+{
+  "name": "aleteo-backend",
+  "version": "1.0.0",
+  "description": "Backend de Aleteo: tarjetas, invitaciones y eventos.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
