@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tu carrito — Aleteo</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<header>
+  <nav class="nav">
+    <a href="/" class="logo"><span class="dot"></span>Aleteo</a>
+  </nav>
+</header>
+
+<section class="page">
+  <div class="wrap page-narrow">
+    <h1>Tu carrito</h1>
+
+    <% if (cancelado) { %>
+      <div class="form-error">El pago se canceló. Tu carrito ya está vacío, pero puedes armarlo de nuevo cuando quieras.</div>
+    <% } %>
+
+    <% if (items.length === 0) { %>
+      <p class="lede">Todavía no has agregado ninguna tarjeta o invitación.</p>
+      <div class="form-foot"><a href="/#gallery">Ver el catálogo</a></div>
+    <% } else { %>
+      <% items.forEach(function(item, i){ %>
+        <div class="event-hero" style="margin-bottom:16px;">
+          <h2 style="font-size:18px;"><%= item.nombre %> — para <%= item.para %></h2>
+          <p style="color:var(--muted);font-size:13.5px;margin-top:6px;">$<%= item.precio.toLocaleString('es-CL') %></p>
+          <% if (item.paraEmail) { %>
+            <p style="color:var(--muted);font-size:13px;margin-top:4px;">
+              Se enviará a <%= item.paraEmail %><%= item.enviarEn ? ' el ' + new Date(item.enviarEn).toLocaleString('es-CL') : ' apenas confirmes el pedido' %>.
+            </p>
+          <% } %>
+          <form action="/carrito/<%= i %>/eliminar" method="POST" style="margin-top:10px;">
+            <button type="submit" class="btn-small">Quitar</button>
+          </form>
+        </div>
+      <% }) %>
+
+      <p style="font-size:18px;font-weight:600;margin:24px 0;">Total: $<%= total.toLocaleString('es-CL') %></p>
+
+      <% if (stripeDisponible) { %>
+        <form action="/carrito/pagar" method="POST">
+          <button type="submit" class="btn-primary">Pagar con tarjeta</button>
+        </form>
+      <% } else { %>
+        <form action="/carrito/finalizar" method="POST">
+          <button type="submit" class="btn-primary">Finalizar pedido (sin cobro)</button>
+        </form>
+      <% } %>
+      <div class="form-foot"><a href="/#gallery">Seguir agregando tarjetas</a></div>
+    <% } %>
+  </div>
+</section>
+</body>
+</html>

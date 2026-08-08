@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aleteo — Tarjetas animadas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+<header>
+  <nav class="nav">
+    <div class="logo"><span class="dot"></span>Aleteo</div>
+    <div class="nav-links" id="navLinks">
+      <a href="#occasions">Ocasiones</a>
+      <a href="#gallery">Catálogo</a>
+      <a href="#invitations">Invitaciones</a>
+      <a href="#events">Eventos</a>
+      <a href="#giftshop">Tienda de regalos</a>
+      <a href="#how">Cómo funciona</a>
+      <a href="/carrito">Carrito<% if (carritoCount > 0) { %> (<%= carritoCount %>)<% } %></a>
+      <% if (usuario) { %>
+        <a href="/mis-pedidos">Mis pedidos</a>
+        <form action="/auth/logout" method="POST" style="padding:16px 32px;margin:0;">
+          <button type="submit" class="btn-ghost" style="width:100%;">Cerrar sesión (<%= usuario.nombre %>)</button>
+        </form>
+      <% } else { %>
+        <a href="/auth/login">Iniciar sesión</a>
+      <% } %>
+    </div>
+    <a href="#gallery" class="nav-cta">Explorar tarjetas</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Abrir menú">☰</button>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow">Tarjetas virtuales animadas</div>
+      <h1>Una tarjeta que <em>se abre</em><br>de verdad.</h1>
+      <p class="lede">Nada de imágenes estáticas. Cada tarjeta de Aleteo se abre, se mueve y respira — para decir lo que sientes con algo que de verdad se sienta vivo.</p>
+      <div class="hero-actions">
+        <a href="#gallery" class="btn-primary">Ver el catálogo</a>
+        <a href="#how" class="btn-ghost">Cómo funciona</a>
+      </div>
+      <div class="hero-hint">Sin apps, sin registro para quien la recibe — llega por link.</div>
+    </div>
+
+    <div>
+      <div class="card-stage">
+        <div class="card" id="heroCard">
+          <div class="card-shadow"></div>
+          <div class="card-inside">
+            <div class="to">Para Marisol</div>
+            <div class="msg">"Que este año te encuentre exactamente donde quieres estar."</div>
+            <div class="sign">— con cariño, Dani</div>
+            <div class="confetti">
+              <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+            </div>
+          </div>
+          <div class="card-cover">
+            <div class="crease"></div>
+            <div class="cover-label">Feliz<br>cumpleaños</div>
+          </div>
+        </div>
+      </div>
+      <div class="card-tap-hint">toca la tarjeta para abrirla</div>
+    </div>
+  </div>
+</section>
+
+<section class="occasions" id="occasions">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Para cada ocasión</div>
+      <h2>Un color, un tono, un momento distinto</h2>
+      <p>Cada categoría tiene su propio estilo de movimiento — nada de la misma animación reciclada para todo.</p>
+    </div>
+    <div class="fan">
+      <div class="fan-card" style="color:var(--ink)">Cumpleaños<span>Confeti + globos</span></div>
+      <div class="fan-card" style="color:var(--ink)">Felicitaciones<span>Estrellas</span></div>
+      <div class="fan-card" style="color:var(--ink)">Amor<span>Latido suave</span></div>
+      <div class="fan-card" style="color:var(--ink)">Amistad<span>Destellos</span></div>
+      <div class="fan-card" style="color:var(--ink)">Ánimo<span>Pulso de apoyo</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="gallery" id="gallery">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Catálogo</div>
+      <h2>Tarjetas listas para personalizar</h2>
+      <p>Elige un diseño, cambia el texto y el nombre, y compártela por link o WhatsApp en menos de dos minutos.</p>
+    </div>
+    <div class="grid">
+      <% if (tarjetas.length === 0) { %>
+        <p class="admin-empty">Todavía no hay tarjetas cargadas en el catálogo.</p>
+      <% } %>
+      <% tarjetas.forEach(function(p){ %>
+        <div class="g-card">
+          <div class="g-preview <%= p.animacion %>"><%- previewMarkup(p.animacion) %></div>
+          <div class="g-body">
+            <h3><%= p.nombre %></h3>
+            <p><%= p.descripcion %></p>
+            <div class="g-foot">
+              <span class="price">Desde $<%= p.precio.toLocaleString('es-CL') %></span>
+              <a href="/personalizar/<%= p.id %>" class="g-link">Personalizar</a>
+            </div>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<section class="gallery" id="invitations">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Invitaciones</div>
+      <h2>Invita a tu evento con el mismo espíritu</h2>
+      <p>Además de tarjetas de saludo, diseñamos invitaciones animadas para eventos — con RSVP incluido en el link.</p>
+    </div>
+    <div class="grid">
+      <% if (invitaciones.length === 0) { %>
+        <p class="admin-empty">Todavía no hay invitaciones cargadas en el catálogo.</p>
+      <% } %>
+      <% invitaciones.forEach(function(p){ %>
+        <div class="g-card">
+          <div class="g-preview <%= p.animacion %>"><%- previewMarkup(p.animacion) %></div>
+          <div class="g-body">
+            <h3><%= p.nombre %></h3>
+            <p><%= p.descripcion %></p>
+            <div class="g-foot">
+              <span class="price">Desde $<%= p.precio.toLocaleString('es-CL') %></span>
+              <a href="/personalizar/<%= p.id %>" class="g-link">Personalizar</a>
+            </div>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<section class="events" id="events">
+  <div class="wrap events-layout">
+    <div class="events-text">
+      <div class="eyebrow">Anuncios de eventos</div>
+      <h2>Anuncia tu evento, no solo la invitación</h2>
+      <p>Crea una página pública con fecha, lugar y confirmación de asistencia — ideal para bodas, cumpleaños, lanzamientos o encuentros abiertos a más gente que tu lista de invitados directa.</p>
+      <div class="diff-note">
+        <div><strong>Invitación</strong> — va dirigida a quien tú elijas, con su propio link y confirmación individual.</div>
+        <div><strong>Evento</strong> — es una página pública que cualquiera puede ver, compartir y agregar a su calendario.</div>
+      </div>
+      <div class="hero-actions">
+        <a href="/crear-evento" class="btn-primary">Crear página de evento</a>
+      </div>
+      <div class="events-hint">Se genera un link público que puedes compartir donde quieras.</div>
+    </div>
+    <div class="event-stack">
+      <% if (eventos.length === 0) { %>
+        <p class="admin-empty">Aún no hay eventos publicados.</p>
+      <% } %>
+      <% eventos.forEach(function(ev){ var f = formatearFecha(ev.fecha); %>
+        <div class="event-card">
+          <div class="event-date" style="background:var(--sky);"><span class="day"><%= f.dia %></span><span class="month"><%= f.mes %></span></div>
+          <div class="event-body">
+            <h4><%= ev.titulo %></h4>
+            <div class="loc">📍 <%= ev.lugar %></div>
+            <a href="/e/<%= ev.codigo %>">Ver evento</a>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<section class="giftbanner" id="giftshop">
+  <div class="wrap">
+    <div class="giftbanner-inner">
+      <div class="giftbanner-text">
+        <h2>¿Buscas algo para acompañar la tarjeta?</h2>
+        <p>Aleteo Regalos reúne detalles pequeños — flores, chocolates y cajas sorpresa — que se pueden enviar junto con tu tarjeta o invitación.</p>
+      </div>
+      <button class="btn-primary">Visitar tienda de regalos</button>
+    </div>
+  </div>
+</section>
+
+<section class="how" id="how">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Cómo funciona</div>
+      <h2>De la idea al envío, en tres pasos</h2>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="num">01</div>
+        <h3>Elige tu tarjeta</h3>
+        <p>Busca por ocasión o navega el catálogo completo. Cada diseño incluye una vista previa animada antes de comprar.</p>
+      </div>
+      <div class="step">
+        <div class="num">02</div>
+        <h3>Personaliza el mensaje</h3>
+        <p>Cambia el nombre, escribe tu propio texto y elige el momento en que quieres que se envíe.</p>
+      </div>
+      <div class="step">
+        <div class="num">03</div>
+        <h3>Envía por link</h3>
+        <p>Comparte por WhatsApp, correo o redes. Quien la recibe la abre directo en el navegador, sin instalar nada.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-grid">
+    <div class="foot-brand">
+      <div class="logo"><span class="dot"></span>Aleteo</div>
+      <p>Tarjetas virtuales animadas para decir las cosas con algo que se mueve de verdad.</p>
+    </div>
+    <div class="foot-cols">
+      <div class="foot-col">
+        <h4>Explorar</h4>
+        <a href="#occasions">Ocasiones</a>
+        <a href="#gallery">Catálogo</a>
+        <a href="#invitations">Invitaciones</a>
+        <a href="#events">Eventos</a>
+        <a href="#giftshop">Tienda de regalos</a>
+        <a href="#how">Cómo funciona</a>
+      </div>
+      <div class="foot-col">
+        <h4>Ayuda</h4>
+        <a href="#">Preguntas frecuentes</a>
+        <a href="#">Contacto</a>
+        <a href="/admin">Administración</a>
+      </div>
+    </div>
+  </div>
+  <div class="wrap foot-bottom">Aleteo © 2026</div>
+</footer>
+
+<script>
+  document.getElementById('heroCard').addEventListener('click', function(){
+    this.classList.toggle('is-open');
+  });
+  document.getElementById('navToggle').addEventListener('click', function(){
+    document.getElementById('navLinks').classList.toggle('open');
+  });
+</script>
+
+</body>
+</html>

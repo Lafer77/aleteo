@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pedidos — Admin Aleteo</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<div class="admin-shell">
+  <%- include('_sidebar', { active: 'pedidos' }) %>
+  <div class="admin-main">
+    <h1>Pedidos</h1>
+
+    <% if (pedidos.length === 0) { %>
+      <p class="admin-empty">Todavía no hay pedidos.</p>
+    <% } else { %>
+      <table class="admin-table">
+        <thead>
+          <tr><th>Código</th><th>Plantilla</th><th>Para</th><th>Precio</th><th>Estado</th><th>Fecha</th><th></th></tr>
+        </thead>
+        <tbody>
+          <% pedidos.forEach(function(p){ %>
+            <tr>
+              <td><a href="/t/<%= p.codigo %>" target="_blank"><%= p.codigo %></a></td>
+              <td><%= p.plantilla_nombre %></td>
+              <td><%= p.para %></td>
+              <td>$<%= p.precio.toLocaleString('es-CL') %></td>
+              <td><span class="badge <%= p.estado %>"><%= p.estado %></span></td>
+              <td><%= new Date(p.creado_en).toLocaleDateString('es-CL') %></td>
+              <td>
+                <form action="/admin/pedidos/<%= p.id %>/estado" method="POST" style="display:flex;gap:6px;">
+                  <select name="estado" onchange="this.form.submit()">
+                    <option value="pendiente" <%= p.estado === 'pendiente' ? 'selected' : '' %>>Pendiente</option>
+                    <option value="pagado" <%= p.estado === 'pagado' ? 'selected' : '' %>>Pagado</option>
+                    <option value="enviado" <%= p.estado === 'enviado' ? 'selected' : '' %>>Enviado</option>
+                  </select>
+                </form>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    <% } %>
+  </div>
+</div>
+</body>
+</html>

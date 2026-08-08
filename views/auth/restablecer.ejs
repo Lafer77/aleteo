@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Restablecer contraseña — Aleteo</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<header>
+  <nav class="nav">
+    <a href="/" class="logo"><span class="dot"></span>Aleteo</a>
+  </nav>
+</header>
+
+<section class="page">
+  <div class="wrap page-narrow">
+    <h1>Elige una nueva contraseña</h1>
+
+    <% if (!valido) { %>
+      <div class="form-error">Este link ya no es válido. Puede que haya expirado — pide uno nuevo.</div>
+      <div class="form-foot"><a href="/auth/recuperar">Pedir un nuevo link</a></div>
+    <% } else { %>
+      <% if (error) { %><div class="form-error"><%= error %></div><% } %>
+      <form method="POST" action="/auth/restablecer/<%= token %>">
+        <div class="field">
+          <label for="password">Nueva contraseña</label>
+          <input type="password" id="password" name="password" minlength="6" required>
+        </div>
+        <button type="submit" class="btn-primary">Guardar contraseña</button>
+      </form>
+    <% } %>
+  </div>
+</section>
+</body>
+</html>

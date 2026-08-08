@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title><%= evento.titulo %> — Aleteo</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<header>
+  <nav class="nav">
+    <a href="/" class="logo"><span class="dot"></span>Aleteo</a>
+  </nav>
+</header>
+
+<section class="page">
+  <div class="wrap page-narrow">
+    <% var f = formatearFecha(evento.fecha); %>
+    <div class="event-hero">
+      <div class="day-badge"><%= f.dia %> <%= f.mes %></div>
+      <h1><%= evento.titulo %></h1>
+      <p class="lede" style="margin-bottom:0;">📍 <%= evento.lugar %></p>
+      <% if (evento.descripcion) { %><p class="lede"><%= evento.descripcion %></p><% } %>
+      <p style="color:var(--muted);font-size:14px;"><%= totalConfirmados %> persona(s) confirmada(s).</p>
+    </div>
+
+    <% if (enviado) { %>
+      <div class="form-note">¡Gracias por confirmar!</div>
+    <% } %>
+
+    <h2 style="font-size:20px;margin-bottom:16px;">Confirma tu asistencia</h2>
+    <form method="POST" action="/e/<%= evento.codigo %>/rsvp">
+      <div class="field">
+        <label for="nombre">Tu nombre</label>
+        <input type="text" id="nombre" name="nombre" placeholder="¿Cómo te llamas?" required>
+      </div>
+      <div class="field">
+        <label for="asiste">¿Vas a asistir?</label>
+        <select id="asiste" name="asiste">
+          <option value="si">Sí, ahí estaré</option>
+          <option value="no">No podré ir</option>
+        </select>
+      </div>
+      <button type="submit" class="btn-primary">Confirmar</button>
+    </form>
+
+    <% if (rsvps.length > 0) { %>
+      <div class="rsvp-list">
+        <h2 style="font-size:16px;">Confirmaciones</h2>
+        <% rsvps.forEach(function(r){ %>
+          <div class="item">
+            <span><%= r.nombre %></span>
+            <span><%= r.asiste ? 'Asiste' : 'No asiste' %></span>
+          </div>
+        <% }) %>
+      </div>
+    <% } %>
+  </div>
+</section>
+</body>
+</html>

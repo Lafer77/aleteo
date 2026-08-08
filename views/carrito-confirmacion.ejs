@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tu pedido está listo — Aleteo</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<header>
+  <nav class="nav">
+    <a href="/" class="logo"><span class="dot"></span>Aleteo</a>
+  </nav>
+</header>
+
+<section class="page">
+  <div class="wrap page-narrow">
+    <h1>¡Tu pedido está listo!</h1>
+    <p class="lede">Comparte cada link con quien quieras que la reciba.</p>
+
+    <% items.forEach(function(item){ %>
+      <div class="event-hero" style="margin-bottom:20px;">
+        <h2 style="font-size:18px;">«<%= item.nombre %>» para <%= item.para %></h2>
+        <% if (item.paraEmail) { %>
+          <p style="color:var(--muted);font-size:13px;margin-top:6px;">
+            <%= item.enviarEn ? 'Se enviará por correo el ' + new Date(item.enviarEn).toLocaleString('es-CL') : 'Enviada por correo a ' + item.paraEmail %>
+          </p>
+        <% } %>
+        <div class="link-box"><%= item.link %></div>
+        <div class="share-row">
+          <a class="whatsapp" target="_blank" rel="noopener"
+             href="https://wa.me/?text=<%= encodeURIComponent('Te mandé una tarjeta de Aleteo: ' + item.link) %>">
+            Compartir por WhatsApp
+          </a>
+          <a href="mailto:?subject=<%= encodeURIComponent('Te mandé una tarjeta') %>&body=<%= encodeURIComponent('Abre tu tarjeta acá: ' + item.link) %>">
+            Enviar por correo
+          </a>
+          <a href="<%= item.link %>" target="_blank" rel="noopener">Ver la tarjeta</a>
+        </div>
+      </div>
+    <% }) %>
+
+    <div class="form-foot"><a href="/">Volver al catálogo</a></div>
+  </div>
+</section>
+</body>
+</html>

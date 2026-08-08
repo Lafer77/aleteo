@@ -1,12 +1,3 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Aleteo — Tarjetas animadas</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-<style>
   :root{
     --stage:#241528;
     --stage-2:#37203f;
@@ -450,311 +441,113 @@
   .foot-col h4{font-size:13px;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin-bottom:14px;font-weight:600;}
   .foot-col a{display:block;font-size:14px;text-decoration:none;color:var(--paper);opacity:0.85;margin-bottom:10px;}
   .foot-bottom{margin-top:50px;font-size:12.5px;color:var(--muted);border-top:1px solid rgba(255,255,255,0.06);padding-top:24px;}
-</style>
-</head>
-<body>
 
-<header>
-  <nav class="nav">
-    <div class="logo"><span class="dot"></span>Aleteo</div>
-    <div class="nav-links" id="navLinks">
-      <a href="#occasions">Ocasiones</a>
-      <a href="#gallery">Catálogo</a>
-      <a href="#invitations">Invitaciones</a>
-      <a href="#events">Eventos</a>
-      <a href="#giftshop">Tienda de regalos</a>
-      <a href="#how">Cómo funciona</a>
-    </div>
-    <a href="#gallery" class="nav-cta">Explorar tarjetas</a>
-    <button class="nav-toggle" id="navToggle" aria-label="Abrir menú">☰</button>
-  </nav>
-</header>
+  /* ---------- animation layer on the final rendered card ---------- */
+  .anim-layer{position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .5s ease .3s;}
+  .card.is-open .anim-layer{opacity:1;}
+  .card-cover.p-birthday,.card-cover.p-love,.card-cover.p-thanks,.card-cover.p-friend,
+  .card-cover.p-support,.card-cover.p-congrats,.card-cover.p-wedding,.card-cover.p-baby,
+  .card-cover.p-quince,.card-cover.p-graduation{display:flex;}
+  .anim-layer .heart,.anim-layer .ring,.anim-layer .ring2,.anim-layer .moon{
+    position:absolute;top:16px;right:16px;
+  }
 
-<section class="hero">
-  <div class="wrap hero-grid">
-    <div>
-      <div class="eyebrow">Tarjetas virtuales animadas</div>
-      <h1>Una tarjeta que <em>se abre</em><br>de verdad.</h1>
-      <p class="lede">Nada de imágenes estáticas. Cada tarjeta de Aleteo se abre, se mueve y respira — para decir lo que sientes con algo que de verdad se sienta vivo.</p>
-      <div class="hero-actions">
-        <button class="btn-primary">Ver el catálogo</button>
-        <button class="btn-ghost">Cómo funciona</button>
-      </div>
-      <div class="hero-hint">Sin apps, sin registro para quien la recibe — llega por link.</div>
-    </div>
+  /* ---------- generic page shell (forms, confirmation, event page) ---------- */
+  .page{padding:120px 0 100px;min-height:70vh;}
+  .page-narrow{max-width:520px;margin:0 auto;}
+  .page h1{font-size:clamp(28px,4vw,38px);margin-bottom:14px;}
+  .page .lede{color:var(--muted);font-size:15.5px;line-height:1.6;margin-bottom:36px;}
 
-    <div>
-      <div class="card-stage">
-        <div class="card" id="heroCard">
-          <div class="card-shadow"></div>
-          <div class="card-inside">
-            <div class="to">Para Marisol</div>
-            <div class="msg">"Que este año te encuentre exactamente donde quieres estar."</div>
-            <div class="sign">— con cariño, Dani</div>
-            <div class="confetti">
-              <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
-            </div>
-          </div>
-          <div class="card-cover">
-            <div class="crease"></div>
-            <div class="cover-label">Feliz<br>cumpleaños</div>
-          </div>
-        </div>
-      </div>
-      <div class="card-tap-hint">toca la tarjeta para abrirla</div>
-    </div>
-  </div>
-</section>
+  .field{margin-bottom:20px;}
+  .field label{display:block;font-size:13.5px;color:var(--muted);margin-bottom:8px;}
+  .field input,.field textarea,.field select{
+    width:100%;padding:13px 16px;border-radius:10px;
+    background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.14);
+    color:var(--paper);font-family:inherit;font-size:15px;
+  }
+  .field textarea{resize:vertical;min-height:100px;}
+  .field input:focus,.field textarea:focus,.field select:focus{outline:none;border-color:var(--saffron);}
+  .form-error{
+    background:rgba(255,106,92,0.12);border:1px solid rgba(255,106,92,0.4);
+    color:var(--paper);padding:12px 16px;border-radius:10px;font-size:14px;margin-bottom:20px;
+  }
+  .form-note{background:rgba(95,224,183,0.12);border:1px solid rgba(95,224,183,0.4);
+    color:var(--paper);padding:12px 16px;border-radius:10px;font-size:14px;margin-bottom:20px;}
+  .form-foot{margin-top:18px;font-size:13.5px;color:var(--muted);}
+  .form-foot a{color:var(--saffron);text-decoration:none;}
 
-<section class="occasions" id="occasions">
-  <div class="wrap">
-    <div class="section-head">
-      <div class="eyebrow">Para cada ocasión</div>
-      <h2>Un color, un tono, un momento distinto</h2>
-      <p>Cada categoría tiene su propio estilo de movimiento — nada de la misma animación reciclada para todo.</p>
-    </div>
-    <div class="fan">
-      <div class="fan-card" style="color:var(--ink)">Cumpleaños<span>Confeti + globos</span></div>
-      <div class="fan-card" style="color:var(--ink)">Felicitaciones<span>Estrellas</span></div>
-      <div class="fan-card" style="color:var(--ink)">Amor<span>Latido suave</span></div>
-      <div class="fan-card" style="color:var(--ink)">Amistad<span>Destellos</span></div>
-      <div class="fan-card" style="color:var(--ink)">Ánimo<span>Pulso de apoyo</span></div>
-    </div>
-  </div>
-</section>
+  .share-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px;}
+  .share-row a,.share-row button{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:12px 18px;border-radius:100px;font-size:14px;font-weight:600;
+    text-decoration:none;cursor:pointer;border:1px solid rgba(255,255,255,0.2);
+    background:transparent;color:var(--paper);
+  }
+  .share-row a.whatsapp{background:#25D366;border-color:#25D366;color:#0b2e1a;}
+  .link-box{
+    display:flex;align-items:center;gap:10px;background:rgba(255,255,255,0.06);
+    border:1px solid rgba(255,255,255,0.14);border-radius:10px;padding:12px 16px;
+    font-size:14px;margin-top:8px;word-break:break-all;
+  }
 
-<section class="gallery" id="gallery">
-  <div class="wrap">
-    <div class="section-head">
-      <div class="eyebrow">Catálogo</div>
-      <h2>Tarjetas listas para personalizar</h2>
-      <p>Elige un diseño, cambia el texto y el nombre, y compártela por link o WhatsApp en menos de dos minutos.</p>
-    </div>
-    <div class="grid">
+  /* ---------- event page ---------- */
+  .event-hero{background:var(--stage-2);border-radius:18px;padding:36px;margin-bottom:30px;}
+  .event-hero .day-badge{
+    display:inline-block;background:var(--saffron);color:var(--ink);
+    padding:8px 16px;border-radius:100px;font-weight:600;font-size:14px;margin-bottom:16px;
+  }
+  .rsvp-list{margin-top:30px;}
+  .rsvp-list .item{
+    display:flex;justify-content:space-between;padding:12px 0;
+    border-bottom:1px solid rgba(255,255,255,0.08);font-size:14.5px;
+  }
 
-      <div class="g-card">
-        <div class="g-preview p-birthday"><div class="balloon"></div><div class="balloon"></div><div class="balloon"></div></div>
-        <div class="g-body">
-          <h3>Vuelta al sol</h3>
-          <p>Globos que suben y confeti al abrir. Para cumpleaños que no quieren pasar desapercibidos.</p>
-          <div class="g-foot"><span class="price">Desde $2.900</span><a href="#" class="g-link">Personalizar</a></div>
-        </div>
-      </div>
+  /* ---------- admin panel ---------- */
+  .admin-shell{display:flex;min-height:100vh;background:var(--stage);color:var(--paper);}
+  .admin-sidebar{
+    width:220px;flex-shrink:0;background:var(--stage-2);padding:26px 20px;
+    border-right:1px solid rgba(255,255,255,0.08);
+  }
+  .admin-sidebar .logo{margin-bottom:36px;}
+  .admin-sidebar nav a{
+    display:block;padding:10px 12px;border-radius:8px;color:var(--muted);
+    text-decoration:none;font-size:14.5px;margin-bottom:4px;
+  }
+  .admin-sidebar nav a:hover,.admin-sidebar nav a.active{background:rgba(255,255,255,0.06);color:var(--paper);}
+  .admin-main{flex:1;padding:36px 44px;max-width:1100px;}
+  .admin-main h1{font-size:26px;margin-bottom:24px;font-family:'Fraunces',serif;}
+  .admin-topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:30px;}
+  .admin-topbar form{margin:0;}
+  .btn-small{
+    background:transparent;border:1px solid rgba(255,255,255,0.2);color:var(--paper);
+    padding:8px 16px;border-radius:100px;font-size:13px;cursor:pointer;text-decoration:none;
+    display:inline-block;
+  }
 
-      <div class="g-card">
-        <div class="g-preview p-love"><div class="heart"></div></div>
-        <div class="g-body">
-          <h3>Late por ti</h3>
-          <p>Un corazón con pulso propio. Para aniversarios, San Valentín o un "te quiero" sin motivo.</p>
-          <div class="g-foot"><span class="price">Desde $2.900</span><a href="#" class="g-link">Personalizar</a></div>
-        </div>
-      </div>
+  .stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:18px;margin-bottom:40px;}
+  .stat-card{background:var(--stage-2);border-radius:14px;padding:22px;border:1px solid rgba(255,255,255,0.06);}
+  .stat-card .num{font-family:'Fraunces',serif;font-size:30px;font-weight:700;color:var(--saffron);}
+  .stat-card .label{color:var(--muted);font-size:13px;margin-top:6px;}
 
-      <div class="g-card">
-        <div class="g-preview p-thanks"><div class="leaf"></div><div class="leaf"></div><div class="leaf"></div></div>
-        <div class="g-body">
-          <h3>Hojas de gracias</h3>
-          <p>Movimiento lento, casi de brisa. Para agradecer sin necesidad de gritarlo.</p>
-          <div class="g-foot"><span class="price">Desde $2.500</span><a href="#" class="g-link">Personalizar</a></div>
-        </div>
-      </div>
-
-      <div class="g-card">
-        <div class="g-preview p-friend"><div class="spark"></div><div class="spark"></div><div class="spark"></div><div class="spark"></div></div>
-        <div class="g-body">
-          <h3>Destello de amistad</h3>
-          <p>Pequeños brillos intermitentes. Para esa persona con la que todo es más fácil.</p>
-          <div class="g-foot"><span class="price">Desde $2.500</span><a href="#" class="g-link">Personalizar</a></div>
-        </div>
-      </div>
-
-      <div class="g-card">
-        <div class="g-preview p-support"><div class="ring"></div></div>
-        <div class="g-body">
-          <h3>Aquí estoy</h3>
-          <p>Un pulso constante, como una presencia. Para acompañar en un momento difícil.</p>
-          <div class="g-foot"><span class="price">Desde $2.500</span><a href="#" class="g-link">Personalizar</a></div>
-        </div>
-      </div>
-
-      <div class="g-card">
-        <div class="g-preview p-congrats"><div class="star">★</div><div class="star">★</div><div class="star">★</div></div>
-        <div class="g-body">
-          <h3>Lo lograste</h3>
-          <p>Estrellas que aparecen una a una. Para graduaciones, ascensos y logros propios.</p>
-          <div class="g-foot"><span class="price">Desde $2.900</span><a href="#" class="g-link">Personalizar</a></div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<section class="gallery" id="invitations">
-  <div class="wrap">
-    <div class="section-head">
-      <div class="eyebrow">Invitaciones</div>
-      <h2>Invita a tu evento con el mismo espíritu</h2>
-      <p>Además de tarjetas de saludo, diseñamos invitaciones animadas para eventos — con RSVP incluido en el link.</p>
-    </div>
-    <div class="grid">
-
-      <div class="g-card">
-        <div class="g-preview p-wedding"><div class="ring2"></div><div class="ring2"></div></div>
-        <div class="g-body">
-          <h3>Nuestra boda</h3>
-          <p>Anillos que se encuentran suavemente. Incluye fecha, lugar y confirmación de asistencia.</p>
-          <div class="g-foot"><span class="price">Desde $4.500</span><a href="#" class="g-link">Personalizar</a></div>
-        </div>
-      </div>
-
-      <div class="g-card">
-        <div class="g-preview p-baby"><div class="moon"></div></div>
-        <div class="g-body">
-          <h3>Ya casi llega</h3>
-          <p>Movimiento lento y tierno, ideal para baby shower o gender reveal.</p>
-          <div class="g-foot"><span class="price">Desde $3.900</span><a href="#" class="g-link">Personalizar</a></div>
-        </div>
-      </div>
-
-      <div class="g-card">
-        <div class="g-preview p-quince"><div class="sparkle">✦</div><div class="sparkle">✦</div><div class="sparkle">✦</div></div>
-        <div class="g-body">
-          <h3>Mis quince</h3>
-          <p>Destellos delicados para quinceañeras, bautizos o primeras comuniones.</p>
-          <div class="g-foot"><span class="price">Desde $3.900</span><a href="#" class="g-link">Personalizar</a></div>
-        </div>
-      </div>
-
-      <div class="g-card">
-        <div class="g-preview p-graduation"><div class="cap">🎓</div></div>
-        <div class="g-body">
-          <h3>¡Lo logramos!</h3>
-          <p>Birrete al vuelo. Perfecta para invitar a la ceremonia o a la fiesta de graduación.</p>
-          <div class="g-foot"><span class="price">Desde $3.900</span><a href="#" class="g-link">Personalizar</a></div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<section class="events" id="events">
-  <div class="wrap events-layout">
-    <div class="events-text">
-      <div class="eyebrow">Anuncios de eventos</div>
-      <h2>Anuncia tu evento, no solo la invitación</h2>
-      <p>Crea una página pública con fecha, lugar y confirmación de asistencia — ideal para bodas, cumpleaños, lanzamientos o encuentros abiertos a más gente que tu lista de invitados directa.</p>
-      <div class="diff-note">
-        <div><strong>Invitación</strong> — va dirigida a quien tú elijas, con su propio link y confirmación individual.</div>
-        <div><strong>Evento</strong> — es una página pública que cualquiera puede ver, compartir y agregar a su calendario.</div>
-      </div>
-      <div class="hero-actions">
-        <button class="btn-primary">Crear página de evento</button>
-      </div>
-      <div class="events-hint">Se genera un link público que puedes compartir donde quieras.</div>
-    </div>
-    <div class="event-stack">
-      <div class="event-card ev-wedding">
-        <div class="event-date"><span class="day">14</span><span class="month">Nov</span></div>
-        <div class="event-body">
-          <h4>Boda de Valentina &amp; Tomás</h4>
-          <div class="loc">📍 Viña del Mar</div>
-          <a href="#">Ver evento</a>
-        </div>
-      </div>
-      <div class="event-card ev-launch">
-        <div class="event-date"><span class="day">22</span><span class="month">Oct</span></div>
-        <div class="event-body">
-          <h4>Lanzamiento Estudio Norte</h4>
-          <div class="loc">📍 Santiago</div>
-          <a href="#">Ver evento</a>
-        </div>
-      </div>
-      <div class="event-card ev-birthday">
-        <div class="event-date"><span class="day">05</span><span class="month">Dic</span></div>
-        <div class="event-body">
-          <h4>Cumpleaños n.º 30 de Caro</h4>
-          <div class="loc">📍 Providencia</div>
-          <a href="#">Ver evento</a>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="giftbanner" id="giftshop">
-  <div class="wrap">
-    <div class="giftbanner-inner">
-      <div class="giftbanner-text">
-        <h2>¿Buscas algo para acompañar la tarjeta?</h2>
-        <p>Aleteo Regalos reúne detalles pequeños — flores, chocolates y cajas sorpresa — que se pueden enviar junto con tu tarjeta o invitación.</p>
-      </div>
-      <button class="btn-primary">Visitar tienda de regalos</button>
-    </div>
-  </div>
-</section>
-
-<section class="how" id="how">
-  <div class="wrap">
-    <div class="section-head">
-      <div class="eyebrow">Cómo funciona</div>
-      <h2>De la idea al envío, en tres pasos</h2>
-    </div>
-    <div class="steps">
-      <div class="step">
-        <div class="num">01</div>
-        <h3>Elige tu tarjeta</h3>
-        <p>Busca por ocasión o navega el catálogo completo. Cada diseño incluye una vista previa animada antes de comprar.</p>
-      </div>
-      <div class="step">
-        <div class="num">02</div>
-        <h3>Personaliza el mensaje</h3>
-        <p>Cambia el nombre, escribe tu propio texto y elige el momento en que quieres que se envíe.</p>
-      </div>
-      <div class="step">
-        <div class="num">03</div>
-        <h3>Envía por link</h3>
-        <p>Comparte por WhatsApp, correo o redes. Quien la recibe la abre directo en el navegador, sin instalar nada.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<footer>
-  <div class="wrap foot-grid">
-    <div class="foot-brand">
-      <div class="logo"><span class="dot"></span>Aleteo</div>
-      <p>Tarjetas virtuales animadas para decir las cosas con algo que se mueve de verdad.</p>
-    </div>
-    <div class="foot-cols">
-      <div class="foot-col">
-        <h4>Explorar</h4>
-        <a href="#occasions">Ocasiones</a>
-        <a href="#gallery">Catálogo</a>
-        <a href="#invitations">Invitaciones</a>
-        <a href="#events">Eventos</a>
-        <a href="#giftshop">Tienda de regalos</a>
-        <a href="#how">Cómo funciona</a>
-      </div>
-      <div class="foot-col">
-        <h4>Ayuda</h4>
-        <a href="#">Preguntas frecuentes</a>
-        <a href="#">Contacto</a>
-      </div>
-    </div>
-  </div>
-  <div class="wrap foot-bottom">Prototipo de diseño — Aleteo © 2026</div>
-</footer>
-
-<script>
-  document.getElementById('heroCard').addEventListener('click', function(){
-    this.classList.toggle('is-open');
-  });
-  document.getElementById('navToggle').addEventListener('click', function(){
-    document.getElementById('navLinks').classList.toggle('open');
-  });
-</script>
-
-</body>
-</html>
+  table.admin-table{width:100%;border-collapse:collapse;font-size:14px;}
+  table.admin-table th{
+    text-align:left;color:var(--muted);font-weight:600;font-size:12.5px;
+    text-transform:uppercase;letter-spacing:0.04em;padding:10px 14px;
+    border-bottom:1px solid rgba(255,255,255,0.12);
+  }
+  table.admin-table td{padding:12px 14px;border-bottom:1px solid rgba(255,255,255,0.06);vertical-align:middle;}
+  table.admin-table tr:hover td{background:rgba(255,255,255,0.03);}
+  .badge{display:inline-block;padding:4px 10px;border-radius:100px;font-size:12px;font-weight:600;}
+  .badge.pendiente{background:rgba(255,193,94,0.18);color:var(--saffron);}
+  .badge.pagado{background:rgba(95,224,183,0.18);color:var(--mint);}
+  .badge.enviado{background:rgba(99,199,255,0.18);color:var(--sky);}
+  .admin-table select{
+    background:var(--stage);color:var(--paper);border:1px solid rgba(255,255,255,0.2);
+    border-radius:6px;padding:5px 8px;font-size:13px;
+  }
+  .table-actions{display:flex;gap:10px;}
+  .table-actions a,.table-actions button{
+    background:none;border:none;color:var(--muted);font-size:13px;cursor:pointer;
+    text-decoration:underline;padding:0;
+  }
+  .admin-empty{color:var(--muted);font-size:14px;padding:30px 0;}

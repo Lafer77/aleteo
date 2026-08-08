@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mis pedidos — Aleteo</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<header>
+  <nav class="nav">
+    <a href="/" class="logo"><span class="dot"></span>Aleteo</a>
+  </nav>
+</header>
+
+<section class="page">
+  <div class="wrap page-narrow">
+    <h1>Mis pedidos</h1>
+    <% if (pedidos.length === 0) { %>
+      <p class="lede">Todavía no has creado ninguna tarjeta o invitación.</p>
+    <% } %>
+    <% pedidos.forEach(function(p){ %>
+      <div class="event-hero" style="margin-bottom:16px;">
+        <h2 style="font-size:18px;"><%= p.plantilla_nombre %> — para <%= p.para %></h2>
+        <p style="color:var(--muted);font-size:13.5px;margin-top:6px;">
+          Estado: <span class="badge <%= p.estado %>"><%= p.estado %></span>
+        </p>
+        <div class="form-foot"><a href="/t/<%= p.codigo %>">Ver tarjeta</a></div>
+      </div>
+    <% }) %>
+  </div>
+</section>
+</body>
+</html>

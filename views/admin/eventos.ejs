@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eventos — Admin Aleteo</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<div class="admin-shell">
+  <%- include('_sidebar', { active: 'eventos' }) %>
+  <div class="admin-main">
+    <h1>Eventos</h1>
+
+    <% if (eventos.length === 0) { %>
+      <p class="admin-empty">Todavía no hay eventos.</p>
+    <% } else { %>
+      <table class="admin-table">
+        <thead>
+          <tr><th>Título</th><th>Fecha</th><th>Lugar</th><th>Confirmados</th><th></th></tr>
+        </thead>
+        <tbody>
+          <% eventos.forEach(function(e){ %>
+            <tr>
+              <td><%= e.titulo %></td>
+              <td><%= e.fecha %></td>
+              <td><%= e.lugar %></td>
+              <td><%= e.confirmados %></td>
+              <td class="table-actions">
+                <a href="/admin/eventos/<%= e.id %>">Ver confirmados</a>
+                <a href="/e/<%= e.codigo %>" target="_blank">Ver página</a>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    <% } %>
+  </div>
+</div>
+</body>
+</html>

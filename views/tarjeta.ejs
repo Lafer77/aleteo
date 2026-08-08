@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title><%= pedido.plantilla_nombre %> — para <%= pedido.para %></title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+<section class="hero" style="padding:80px 0;">
+  <div class="wrap" style="display:flex;flex-direction:column;align-items:center;">
+    <div class="card-stage">
+      <div class="card" id="theCard">
+        <div class="card-shadow"></div>
+        <div class="card-inside">
+          <div class="to">Para <%= pedido.para %></div>
+          <div class="msg"><%= pedido.mensaje %></div>
+          <% if (pedido.de) { %><div class="sign">— <%= pedido.de %></div><% } %>
+          <div class="confetti">
+            <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+          </div>
+          <div class="anim-layer <%= pedido.animacion %>"><%- previewMarkup(pedido.animacion) %></div>
+        </div>
+        <div class="card-cover <%= pedido.animacion %>">
+          <div class="crease"></div>
+          <div class="cover-label"><%= pedido.plantilla_nombre %></div>
+        </div>
+      </div>
+    </div>
+    <div class="card-tap-hint">toca la tarjeta para abrirla</div>
+    <div class="form-foot" style="margin-top:30px;"><a href="/" style="color:var(--saffron);">Hecho con Aleteo</a></div>
+  </div>
+</section>
+
+<script>
+  document.getElementById('theCard').addEventListener('click', function(){
+    this.classList.toggle('is-open');
+  });
+</script>
+
+</body>
+</html>

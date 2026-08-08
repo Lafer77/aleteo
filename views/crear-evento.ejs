@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Crear página de evento — Aleteo</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<header>
+  <nav class="nav">
+    <a href="/" class="logo"><span class="dot"></span>Aleteo</a>
+  </nav>
+</header>
+
+<section class="page">
+  <div class="wrap page-narrow">
+    <h1>Crea la página de tu evento</h1>
+    <p class="lede">Se genera un link público que puedes compartir donde quieras, con confirmación de asistencia incluida.</p>
+
+    <% if (error) { %><div class="form-error"><%= error %></div><% } %>
+
+    <form method="POST" action="/crear-evento">
+      <div class="field">
+        <label for="titulo">Título del evento</label>
+        <input type="text" id="titulo" name="titulo" placeholder="Boda de Valentina & Tomás" required>
+      </div>
+      <div class="field">
+        <label for="fecha">Fecha</label>
+        <input type="date" id="fecha" name="fecha" required>
+      </div>
+      <div class="field">
+        <label for="lugar">Lugar</label>
+        <input type="text" id="lugar" name="lugar" placeholder="Viña del Mar" required>
+      </div>
+      <div class="field">
+        <label for="descripcion">Descripción (opcional)</label>
+        <textarea id="descripcion" name="descripcion" placeholder="Detalles adicionales para tus invitados"></textarea>
+      </div>
+      <button type="submit" class="btn-primary">Crear página de evento</button>
+    </form>
+  </div>
+</section>
+</body>
+</html>

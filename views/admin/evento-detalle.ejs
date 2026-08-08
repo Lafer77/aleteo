@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title><%= evento.titulo %> — Admin Aleteo</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<div class="admin-shell">
+  <%- include('_sidebar', { active: 'eventos' }) %>
+  <div class="admin-main">
+    <div class="admin-topbar">
+      <h1><%= evento.titulo %></h1>
+      <a href="/admin/eventos" class="btn-small">← Volver</a>
+    </div>
+    <p style="color:var(--muted);margin-bottom:24px;">📍 <%= evento.lugar %> — <%= evento.fecha %></p>
+
+    <% if (rsvps.length === 0) { %>
+      <p class="admin-empty">Nadie ha confirmado todavía.</p>
+    <% } else { %>
+      <table class="admin-table">
+        <thead><tr><th>Nombre</th><th>Asiste</th><th>Fecha</th></tr></thead>
+        <tbody>
+          <% rsvps.forEach(function(r){ %>
+            <tr>
+              <td><%= r.nombre %></td>
+              <td><%= r.asiste ? 'Sí' : 'No' %></td>
+              <td><%= new Date(r.creado_en).toLocaleDateString('es-CL') %></td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    <% } %>
+  </div>
+</div>
+</body>
+</html>

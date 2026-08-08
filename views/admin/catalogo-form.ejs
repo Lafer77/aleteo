@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title><%= modo === 'editar' ? 'Editar' : 'Nueva' %> plantilla — Admin Aleteo</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<div class="admin-shell">
+  <%- include('_sidebar', { active: 'catalogo' }) %>
+  <div class="admin-main">
+    <h1><%= modo === 'editar' ? 'Editar plantilla' : 'Nueva plantilla' %></h1>
+
+    <% if (error) { %><div class="form-error"><%= error %></div><% } %>
+
+    <form method="POST" action="<%= modo === 'editar' ? '/admin/catalogo/' + plantilla.id + '/editar' : '/admin/catalogo/nueva' %>" style="max-width:480px;">
+      <% if (modo !== 'editar') { %>
+        <div class="field">
+          <label for="id">Id (sin espacios, ej: cumpleanos-globos)</label>
+          <input type="text" id="id" name="id" value="<%= plantilla ? plantilla.id || '' : '' %>" required>
+        </div>
+      <% } %>
+      <div class="field">
+        <label for="tipo">Tipo</label>
+        <select id="tipo" name="tipo" required>
+          <option value="tarjeta" <%= plantilla && plantilla.tipo === 'tarjeta' ? 'selected' : '' %>>Tarjeta</option>
+          <option value="invitacion" <%= plantilla && plantilla.tipo === 'invitacion' ? 'selected' : '' %>>Invitación</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="nombre">Nombre</label>
+        <input type="text" id="nombre" name="nombre" value="<%= plantilla ? plantilla.nombre || '' : '' %>" required>
+      </div>
+      <div class="field">
+        <label for="categoria">Categoría</label>
+        <input type="text" id="categoria" name="categoria" value="<%= plantilla ? plantilla.categoria || '' : '' %>" placeholder="Cumpleaños, Amor, Boda..." required>
+      </div>
+      <div class="field">
+        <label for="precio">Precio (CLP)</label>
+        <input type="number" id="precio" name="precio" value="<%= plantilla ? plantilla.precio || '' : '' %>" min="0" required>
+      </div>
+      <div class="field">
+        <label for="descripcion">Descripción</label>
+        <textarea id="descripcion" name="descripcion"><%= plantilla ? plantilla.descripcion || '' : '' %></textarea>
+      </div>
+      <div class="field">
+        <label for="animacion">Animación</label>
+        <select id="animacion" name="animacion" required>
+          <% animaciones.forEach(function(a){ %>
+            <option value="<%= a.valor %>" <%= plantilla && plantilla.animacion === a.valor ? 'selected' : '' %>><%= a.etiqueta %></option>
+          <% }) %>
+        </select>
+      </div>
+      <button type="submit" class="btn-primary">Guardar</button>
+    </form>
+  </div>
+</div>
+</body>
+</html>

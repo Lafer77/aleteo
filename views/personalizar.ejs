@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Personalizar — <%= plantilla.nombre %> — Aleteo</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<header>
+  <nav class="nav">
+    <a href="/" class="logo"><span class="dot"></span>Aleteo</a>
+  </nav>
+</header>
+
+<section class="page">
+  <div class="wrap page-narrow">
+    <h1>Personaliza «<%= plantilla.nombre %>»</h1>
+    <p class="lede"><%= plantilla.descripcion %> — Desde $<%= plantilla.precio.toLocaleString('es-CL') %>.</p>
+
+    <% if (error) { %><div class="form-error"><%= error %></div><% } %>
+
+    <form method="POST" action="/personalizar/<%= plantilla.id %>">
+      <div class="field">
+        <label for="para">¿Para quién es?</label>
+        <input type="text" id="para" name="para" placeholder="Nombre del destinatario" required>
+      </div>
+      <div class="field">
+        <label for="mensaje">Tu mensaje</label>
+        <textarea id="mensaje" name="mensaje" placeholder="Escribe lo que quieres decir..." required></textarea>
+      </div>
+      <div class="field">
+        <label for="de">Firma (opcional)</label>
+        <input type="text" id="de" name="de" placeholder="Con cariño, ...">
+      </div>
+      <div class="field">
+        <label for="paraEmail">Correo del destinatario (opcional, para enviarla por correo)</label>
+        <input type="email" id="paraEmail" name="paraEmail" placeholder="nombre@correo.com">
+      </div>
+      <div class="field" id="cuandoEnviarField" style="display:none;">
+        <label>¿Cuándo enviarla?</label>
+        <select id="cuandoEnviar" name="cuandoEnviar">
+          <option value="ahora">Apenas confirme el pedido</option>
+          <option value="programar">Programar fecha y hora</option>
+        </select>
+      </div>
+      <div class="field" id="fechaField" style="display:none;">
+        <label for="enviarEn">Fecha y hora de envío</label>
+        <input type="datetime-local" id="enviarEn" name="enviarEn">
+      </div>
+      <button type="submit" class="btn-primary">Agregar al carrito</button>
+    </form>
+  </div>
+</section>
+<script>
+  var emailInput = document.getElementById('paraEmail');
+  var cuandoField = document.getElementById('cuandoEnviarField');
+  var cuandoSelect = document.getElementById('cuandoEnviar');
+  var fechaField = document.getElementById('fechaField');
+
+  function actualizarVisibilidad() {
+    var tieneEmail = emailInput.value.trim().length > 0;
+    cuandoField.style.display = tieneEmail ? 'block' : 'none';
+    fechaField.style.display = (tieneEmail && cuandoSelect.value === 'programar') ? 'block' : 'none';
+  }
+
+  emailInput.addEventListener('input', actualizarVisibilidad);
+  cuandoSelect.addEventListener('change', actualizarVisibilidad);
+</script>
+</body>
+</html>

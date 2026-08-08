@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Catálogo — Admin Aleteo</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<div class="admin-shell">
+  <%- include('_sidebar', { active: 'catalogo' }) %>
+  <div class="admin-main">
+    <div class="admin-topbar">
+      <h1>Catálogo</h1>
+      <a href="/admin/catalogo/nueva" class="btn-small">+ Nueva plantilla</a>
+    </div>
+
+    <% if (plantillas.length === 0) { %>
+      <p class="admin-empty">No hay plantillas todavía.</p>
+    <% } else { %>
+      <table class="admin-table">
+        <thead>
+          <tr><th>Nombre</th><th>Tipo</th><th>Categoría</th><th>Precio</th><th>Estado</th><th></th></tr>
+        </thead>
+        <tbody>
+          <% plantillas.forEach(function(p){ %>
+            <tr>
+              <td><%= p.nombre %></td>
+              <td><%= p.tipo %></td>
+              <td><%= p.categoria %></td>
+              <td>$<%= p.precio.toLocaleString('es-CL') %></td>
+              <td><%= p.activo ? 'Activa' : 'Desactivada' %></td>
+              <td class="table-actions">
+                <a href="/admin/catalogo/<%= p.id %>/editar">Editar</a>
+                <form action="/admin/catalogo/<%= p.id %>/eliminar" method="POST" style="display:inline;">
+                  <button type="submit"><%= p.activo ? 'Desactivar' : 'Activar' %></button>
+                </form>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    <% } %>
+  </div>
+</div>
+</body>
+</html>

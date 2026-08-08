@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Panel — Aleteo</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<div class="admin-shell">
+  <%- include('_sidebar', { active: 'dashboard' }) %>
+  <div class="admin-main">
+    <div class="admin-topbar">
+      <h1>Estadísticas</h1>
+      <form action="/admin/logout" method="POST"><button type="submit" class="btn-small">Cerrar sesión</button></form>
+    </div>
+
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="num"><%= totalPedidos %></div>
+        <div class="label">Pedidos totales</div>
+      </div>
+      <div class="stat-card">
+        <div class="num"><%= totalEventos %></div>
+        <div class="label">Eventos creados</div>
+      </div>
+      <div class="stat-card">
+        <div class="num">$<%= ingresos.toLocaleString('es-CL') %></div>
+        <div class="label">Ingresos (pagados + enviados)</div>
+      </div>
+      <div class="stat-card">
+        <div class="num" style="font-size:18px;"><%= masVendida ? masVendida.nombre : '—' %></div>
+        <div class="label"><%= masVendida ? masVendida.ventas + ' venta(s)' : 'Sin pedidos aún' %></div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
